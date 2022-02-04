@@ -1,9 +1,9 @@
 import math
 from nltk import trigrams
 from enum import Enum
-import syllab_stress_processing as syllabify
-from g2p_lstm import FairseqG2P
-from trigrams import ice_grams, eng_grams
+from . import syllab_stress_processing as syllabify
+from .g2p_lstm import FairseqG2P
+from .trigrams import ice_grams, eng_grams
 
 
 class G2P_METHOD(Enum):
@@ -37,9 +37,9 @@ class Transcriber:
             transcr_arr.append(self.transcribe_lang(wrd.strip(), use_dict, word_sep, self.is_icelandic(wrd.strip())))
         if syllab:
             entries = syllabify.init_pron_dict_from_dict(dict(zip(input_str.split(' '), transcr_arr)))
-            transcribed = self.extract_transcript(syllabify.syllabify_and_label(entries))
+            self.extract_transcript(syllabify.syllabify_and_label(entries))
         else:
-            transcribed = ' '.join(transcr_arr)
+            transcribed = ' , '.join(transcr_arr)
 
         return transcribed
 
@@ -49,7 +49,7 @@ class Transcriber:
             if not result:
                 result += entr.simple_stress_format()
             else:
-                result += '. ' + entr.simple_stress_format()
+                result += ' . ' + entr.simple_stress_format()
 
         return result
 
