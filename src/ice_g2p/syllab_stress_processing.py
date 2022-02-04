@@ -44,22 +44,22 @@ def init_pron_dict(dict_file):
 
 
 def init_pron_dict_from_dict(dict_pairs):
-    pron_dict = []
+    pron_dict = {}
     for word in dict_pairs:
         entry = PronDictEntry(word, dict_pairs[word])
-        pron_dict.append(entry)
+        pron_dict[word] = entry
     return pron_dict
 
 
-def create_tree_list(pron_dict):
-    tree_list = []
-    for entry in pron_dict:
+def create_tree_dict(pron_dict):
+    tree_dict = {}
+    for word, entry in pron_dict.items():
         t = build_compound_tree(entry)
-        tree_list.append(t)
-    return tree_list
+        tree_dict[word] = t
+    return tree_dict
 
 def syllabify_and_label(pron_dict):
-    tree_dict = create_tree_list(pron_dict)
+    tree_dict = create_tree_dict(pron_dict)
 
     syllabified = syllabify_tree_dict(tree_dict)
     syllab_with_stress = set_stress(syllabified)

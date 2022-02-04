@@ -37,7 +37,8 @@ class Transcriber:
             transcr_arr.append(self.transcribe_lang(wrd.strip(), use_dict, word_sep, self.is_icelandic(wrd.strip())))
         if syllab:
             entries = syllabify.init_pron_dict_from_dict(dict(zip(input_str.split(' '), transcr_arr)))
-            self.extract_transcript(syllabify.syllabify_and_label(entries))
+            syllabified = syllabify.syllabify_and_label(entries)
+            transcribed = self.extract_transcript([syllabified[word] for word in input_str.split()])
         else:
             transcribed = ' , '.join(transcr_arr)
 
@@ -49,7 +50,7 @@ class Transcriber:
             if not result:
                 result += entr.simple_stress_format()
             else:
-                result += ' . ' + entr.simple_stress_format()
+                result += ' , ' + entr.simple_stress_format()
 
         return result
 

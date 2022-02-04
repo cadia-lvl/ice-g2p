@@ -92,10 +92,10 @@ def set_stress(syllabified_words):
     :param syllabified_words: alphabetical sorted list of syllabified words
     :return: a list of syllabified words with stress marks on each syllable
     """
-    result_list = []
+    result_dict = {}
     modifiers = []
     last_word = entry.PronDictEntry('')
-    for current in syllabified_words:
+    for word, current in syllabified_words.items():
         current.syllables[0].stress = PRIMARY_STRESS
         if current.word.startswith(last_word.word):
             synchronize_stress(last_word, current)
@@ -116,7 +116,7 @@ def set_stress(syllabified_words):
                     modifiers.pop()
                     mod_len = len(modifiers)
 
-        result_list.append(current)
+        result_dict[word] = current
         last_word = current
 
-    return result_list
+    return result_dict
